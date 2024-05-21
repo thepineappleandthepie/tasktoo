@@ -14,8 +14,14 @@ public class XMLReader {
     public static void main(String[] args) {
         try {
             // Path to the XML file
-            File inputFile = new File("C:\\Users\\anitz\\OneDrive\\Desktop\\SoftwarePrac2\\tasktoo\\src\\data.xml");
+            File inputFile = new File("tasktoo\\src\\data.xml");
 
+            // Validate if the file exists and is a file
+            if (!inputFile.exists() || !inputFile.isFile()) {
+                System.out.println("The specified file does not exist or is not a valid file.");
+                return;
+            }
+            
             // Create a DocumentBuilderFactory and DocumentBuilder
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -38,8 +44,12 @@ public class XMLReader {
             // Split the input string into an array of field names
             String[] fields = input.split(",");
 
-            // Get a list of all "record" elements in the XML document
+            // Validate if the document contains any records
             NodeList nList = doc.getElementsByTagName("record");
+            if (nList.getLength() == 0) {
+                System.out.println("No records found in the XML file.");
+                return;
+            }
 
             // Iterate through each "record" node
             for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -55,6 +65,11 @@ public class XMLReader {
                     // Iterate through each user-specified field
                     for (String field : fields) {
                         field = field.trim();  // Remove leading/trailing whitespace
+                        // Validate field name is not empty
+                        if (field.isEmpty()) {
+                            System.out.println("Empty field name detected, skipping.");
+                            continue;
+                        }
                         // Check if the field exists in the current "record" element
                         if (eElement.getElementsByTagName(field).getLength() > 0) {
                             // Add the field and its value to the JSON object
@@ -69,8 +84,10 @@ public class XMLReader {
                     System.out.println(jsonObject.toString(4));
                 }
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid argument: " + e.getMessage());
         } catch (Exception e) {
-            // Handle any exceptions that occur during parsing or processing
+            // Handle any other exceptions that occur during parsing or processing
             System.out.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
         }
