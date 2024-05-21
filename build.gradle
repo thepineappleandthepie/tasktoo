@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 repositories {
@@ -8,7 +9,12 @@ repositories {
 
 dependencies {
     implementation 'org.json:json:20210307'
+    implementation 'org.xml.sax:sax:2.0.1'
     testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClassName = 'main.java.sdp.prac2.XMLReader'
 }
 
 test {
