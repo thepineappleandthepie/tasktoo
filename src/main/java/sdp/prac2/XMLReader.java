@@ -12,7 +12,7 @@ import java.io.File;
 public class XMLReader {
     public static void main(String[] args) {
         try {
-            File inputFile = new File("input.xml");
+            File inputFile = new File("tasktoo\\src\\data.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
